@@ -18,25 +18,31 @@ using
 
 TManagedMemory::TManagedMemory()
 {
+  /*
   PrintTag();
   printf(" ");
   printf("Constructor.");
   printf("\n");
   Data.PrintWrappings();
   printf("\n");
+  */
 }
 
 TManagedMemory::~TManagedMemory()
 {
+  /*
   PrintTag();
   printf(" ");
   printf("Destructor.");
   printf("\n");
+  */
 
   Release();
 
+  /*
   Data.PrintWrappings();
   printf("\n");
+  */
 }
 
 // Print our address to stdout
