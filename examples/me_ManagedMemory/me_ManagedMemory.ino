@@ -35,6 +35,21 @@ void Test()
   printf(" ");
   Chunk.PrintWrappings();
   printf("\n");
+
+  Chunk.CloneFrom("Test ABC");
+
+  Chunk.PrintTag();
+  printf(" ");
+  Chunk.PrintWrappings();
+  printf("\n");
+
+  Chunk.CloneFrom("Test 2");
+
+  Chunk.PrintTag();
+  printf(" ");
+  Chunk.PrintWrappings();
+  printf("\n");
+
 }
 
 /*

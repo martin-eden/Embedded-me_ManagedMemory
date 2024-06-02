@@ -12,6 +12,10 @@
 
 namespace me_ManagedMemory
 {
+  using
+    me_BaseTypes::TBool,
+    me_BaseTypes::TChar;
+
   class TManagedMemory
   {
     public:
@@ -19,8 +23,16 @@ namespace me_ManagedMemory
       ~TManagedMemory();
       void PrintTag();
       void PrintWrappings();
+
+      TBool CloneFrom(
+        me_MemorySegment::TMemorySegment * SrcSeg
+      );
+      TBool CloneFrom(
+        const TChar * Asciiz
+      );
+
     private:
-      me_MemorySegment::TMemorySegment MemSeg;
+      me_MemorySegment::TMemorySegment Data;
   };
 }
 

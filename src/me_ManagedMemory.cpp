@@ -11,7 +11,10 @@
 
 using
   me_ManagedMemory::TManagedMemory,
-  me_BaseTypes::TUint_2;
+  me_BaseTypes::TBool,
+  me_BaseTypes::TChar,
+  me_BaseTypes::TUint_2,
+  me_MemorySegment::TMemorySegment;
 
 TManagedMemory::TManagedMemory()
 {
@@ -19,7 +22,7 @@ TManagedMemory::TManagedMemory()
   printf(" ");
   printf("Constructor.");
   printf("\n");
-  MemSeg.PrintWrappings();
+  Data.PrintWrappings();
   printf("\n");
 }
 
@@ -29,7 +32,10 @@ TManagedMemory::~TManagedMemory()
   printf(" ");
   printf("Destructor.");
   printf("\n");
-  MemSeg.PrintWrappings();
+
+  Data.ReleaseChunk();
+
+  Data.PrintWrappings();
   printf("\n");
 }
 
@@ -43,8 +49,28 @@ void TManagedMemory::PrintTag()
 void TManagedMemory::PrintWrappings()
 {
   printf("(");
-  MemSeg.PrintWrappings();
+  Data.PrintWrappings();
   printf(")");
+}
+
+TBool TManagedMemory::CloneFrom(
+  TMemorySegment * SrcSeg
+)
+{
+  printf("[CloneFrom]\n");
+  SrcSeg->PrintWrappings();
+  printf("\n");
+
+  return Data.CloneFrom(SrcSeg);
+}
+
+TBool TManagedMemory::CloneFrom(
+  const TChar * Asciiz
+)
+{
+  TMemorySegment TmpSeg;
+  TmpSeg = me_MemorySegment::FromAsciiz(Asciiz);
+  return CloneFrom(&TmpSeg);
 }
 
 /*
