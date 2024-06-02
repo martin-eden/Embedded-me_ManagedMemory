@@ -33,7 +33,7 @@ TManagedMemory::~TManagedMemory()
   printf("Destructor.");
   printf("\n");
 
-  Data.ReleaseChunk();
+  Release();
 
   Data.PrintWrappings();
   printf("\n");
@@ -53,14 +53,26 @@ void TManagedMemory::PrintWrappings()
   printf(")");
 }
 
+// Print raw data to stdout
+void TManagedMemory::Print()
+{
+  Data.Print();
+}
+
+void TManagedMemory::Release()
+{
+  Data.ReleaseChunk();
+}
+
+me_MemorySegment::TMemorySegment TManagedMemory::GetData()
+{
+  return Data;
+}
+
 TBool TManagedMemory::CloneFrom(
   TMemorySegment * SrcSeg
 )
 {
-  printf("[CloneFrom]\n");
-  SrcSeg->PrintWrappings();
-  printf("\n");
-
   return Data.CloneFrom(SrcSeg);
 }
 
@@ -70,6 +82,15 @@ TBool TManagedMemory::CloneFrom(
 {
   TMemorySegment TmpSeg;
   TmpSeg = me_MemorySegment::FromAsciiz(Asciiz);
+  return CloneFrom(&TmpSeg);
+}
+
+TBool TManagedMemory::CloneFrom(
+  TManagedMemory * Src
+)
+{
+  TMemorySegment TmpSeg;
+  TmpSeg = Src->GetData();
   return CloneFrom(&TmpSeg);
 }
 

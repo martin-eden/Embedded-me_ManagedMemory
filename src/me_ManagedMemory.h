@@ -21,14 +21,23 @@ namespace me_ManagedMemory
     public:
       TManagedMemory();
       ~TManagedMemory();
+
       void PrintTag();
       void PrintWrappings();
+      void Print();
+
+      void Release();
+
+      me_MemorySegment::TMemorySegment GetData();
 
       TBool CloneFrom(
         me_MemorySegment::TMemorySegment * SrcSeg
       );
       TBool CloneFrom(
         const TChar * Asciiz
+      );
+      TBool CloneFrom(
+        TManagedMemory * Src
       );
 
     private:
