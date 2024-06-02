@@ -10,8 +10,18 @@
 #include <me_MemorySegment.h>
 #include <me_BaseTypes.h>
 
-namespace me_MemorySegment
+namespace me_ManagedMemory
 {
+  class TManagedMemory
+  {
+    public:
+      TManagedMemory();
+      ~TManagedMemory();
+      void PrintTag();
+      void PrintWrappings();
+    private:
+      me_MemorySegment::TMemorySegment MemSeg;
+  };
 }
 
 /*

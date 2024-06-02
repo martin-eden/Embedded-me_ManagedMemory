@@ -26,6 +26,15 @@ void loop()
 
 void Test()
 {
+  using
+    me_ManagedMemory::TManagedMemory;
+
+  TManagedMemory Chunk;
+
+  Chunk.PrintTag();
+  printf(" ");
+  Chunk.PrintWrappings();
+  printf("\n");
 }
 
 /*
