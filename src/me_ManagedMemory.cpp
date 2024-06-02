@@ -67,7 +67,7 @@ void TManagedMemory::Print()
 
 void TManagedMemory::Release()
 {
-  Data.ReleaseChunk();
+  Data.Release();
 }
 
 me_MemorySegment::TMemorySegment TManagedMemory::GetData()
@@ -75,25 +75,41 @@ me_MemorySegment::TMemorySegment TManagedMemory::GetData()
   return Data;
 }
 
-TBool TManagedMemory::CloneFrom(
-  TMemorySegment * SrcSeg
-)
+/*
+  Allocate and copy memory from another segment.
+
+  Previously allocated memory (if any) is released.
+*/
+TBool TManagedMemory::CloneFrom(TMemorySegment * SrcSeg)
 {
-  return Data.CloneFrom(SrcSeg);
+  Data.Release();
+
+  if (!Data.Reserve(SrcSeg->Size))
+    return false;
+
+  if (!Data.CopyMemFrom(SrcSeg))
+  {
+    /*
+      Theoretically CopyMemFrom() fails when our span intersects with
+      <Src>. Practically it's unlikely but anyway.
+    */
+    Data.Release();
+    return false;
+  }
+
+  return true;
 }
 
-TBool TManagedMemory::CloneFrom(
-  const TChar * Asciiz
-)
+// Create copy from ASCIIZ
+TBool TManagedMemory::CloneFrom(const TChar * Asciiz)
 {
   TMemorySegment TmpSeg;
   TmpSeg = me_MemorySegment::FromAsciiz(Asciiz);
   return CloneFrom(&TmpSeg);
 }
 
-TBool TManagedMemory::CloneFrom(
-  TManagedMemory * Src
-)
+// Create copy from our specie
+TBool TManagedMemory::CloneFrom(TManagedMemory * Src)
 {
   TMemorySegment TmpSeg;
   TmpSeg = Src->GetData();
