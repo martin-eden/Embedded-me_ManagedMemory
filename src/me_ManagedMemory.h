@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-02
+  Last mod.: 2024-06-04
 */
 
 #pragma once
@@ -19,7 +19,6 @@ namespace me_ManagedMemory
   class TManagedMemory
   {
     public:
-      TManagedMemory();
       ~TManagedMemory();
 
       void PrintTag();
@@ -28,15 +27,15 @@ namespace me_ManagedMemory
 
       void Release();
 
-      me_MemorySegment::TMemorySegment GetData();
+      me_MemorySegment::TMemorySegment Get();
 
-      TBool CloneFrom(
-        me_MemorySegment::TMemorySegment * SrcSeg
+      TBool Set(
+        me_MemorySegment::TMemorySegment SrcSeg
       );
-      TBool CloneFrom(
+      TBool Set(
         const TChar * Asciiz
       );
-      TBool CloneFrom(
+      TBool Set(
         TManagedMemory * Src
       );
 
@@ -46,5 +45,6 @@ namespace me_ManagedMemory
 }
 
 /*
-  2025-06-02
+  2024-06-02
+  2024-06-04
 */

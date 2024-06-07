@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-02
+  Last mod.: 2024-06-04
 */
 
 #include "me_ManagedMemory.h"
@@ -11,38 +11,14 @@
 
 using
   me_ManagedMemory::TManagedMemory,
+  me_BaseTypes::TUint_2,
   me_BaseTypes::TBool,
   me_BaseTypes::TChar,
-  me_BaseTypes::TUint_2,
   me_MemorySegment::TMemorySegment;
-
-TManagedMemory::TManagedMemory()
-{
-  /*
-  PrintTag();
-  printf(" ");
-  printf("Constructor.");
-  printf("\n");
-  Data.PrintWrappings();
-  printf("\n");
-  */
-}
 
 TManagedMemory::~TManagedMemory()
 {
-  /*
-  PrintTag();
-  printf(" ");
-  printf("Destructor.");
-  printf("\n");
-  */
-
   Release();
-
-  /*
-  Data.PrintWrappings();
-  printf("\n");
-  */
 }
 
 // Print our address to stdout
@@ -65,12 +41,19 @@ void TManagedMemory::Print()
   Data.Print();
 }
 
+// Release memory. We are relying on idempotence of implementation.
 void TManagedMemory::Release()
 {
+  /*
+  printf("TManagedMemory::Release()\n");
+  Data.PrintWrappings();
+  printf("\n");
+  */
+
   Data.Release();
 }
 
-me_MemorySegment::TMemorySegment TManagedMemory::GetData()
+me_MemorySegment::TMemorySegment TManagedMemory::Get()
 {
   return Data;
 }
@@ -80,11 +63,11 @@ me_MemorySegment::TMemorySegment TManagedMemory::GetData()
 
   Previously allocated memory (if any) is released.
 */
-TBool TManagedMemory::CloneFrom(TMemorySegment * SrcSeg)
+TBool TManagedMemory::Set(TMemorySegment SrcSeg)
 {
   Data.Release();
 
-  if (!Data.Reserve(SrcSeg->Size))
+  if (!Data.Reserve(SrcSeg.Size))
     return false;
 
   if (!Data.CopyMemFrom(SrcSeg))
@@ -101,21 +84,19 @@ TBool TManagedMemory::CloneFrom(TMemorySegment * SrcSeg)
 }
 
 // Create copy from ASCIIZ
-TBool TManagedMemory::CloneFrom(const TChar * Asciiz)
+TBool TManagedMemory::Set(const TChar * Asciiz)
 {
-  TMemorySegment TmpSeg;
-  TmpSeg = me_MemorySegment::FromAsciiz(Asciiz);
-  return CloneFrom(&TmpSeg);
+  using me_MemorySegment::FromAsciiz;
+  return Set(FromAsciiz(Asciiz));
 }
 
 // Create copy from our specie
-TBool TManagedMemory::CloneFrom(TManagedMemory * Src)
+TBool TManagedMemory::Set(TManagedMemory * Src)
 {
-  TMemorySegment TmpSeg;
-  TmpSeg = Src->GetData();
-  return CloneFrom(&TmpSeg);
+  return Set(Src->Get());
 }
 
 /*
   2024-06-02
+  2024-06-04
 */
