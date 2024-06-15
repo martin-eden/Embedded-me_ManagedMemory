@@ -1,8 +1,8 @@
-// Memory segment in dynamic memory management
+// Management of memory segment in dynamic memory
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-04
+  Last mod.: 2024-06-15
 */
 
 #pragma once
@@ -14,37 +14,34 @@ namespace me_ManagedMemory
 {
   using
     me_BaseTypes::TBool,
-    me_BaseTypes::TChar;
+    me_BaseTypes::TChar,
+    me_MemorySegment::TMemorySegment;
 
+  /*
+    Dynamically allocated memory segment
+  */
   class TManagedMemory
   {
-    public:
-      ~TManagedMemory();
+    TMemorySegment Data;
 
-      void PrintTag();
+    public:
+      ~TManagedMemory() { Release(); };
+
+      void Release() { Data.Release(); };
+
+      TMemorySegment Get() { return Data; };
+
+      TBool Set(TMemorySegment SrcSeg);
+      TBool Set(const TChar * Asciiz);
+      TBool Set(TManagedMemory * Src);
+
       void PrintWrappings();
       void Print();
-
-      void Release();
-
-      me_MemorySegment::TMemorySegment Get();
-
-      TBool Set(
-        me_MemorySegment::TMemorySegment SrcSeg
-      );
-      TBool Set(
-        const TChar * Asciiz
-      );
-      TBool Set(
-        TManagedMemory * Src
-      );
-
-    private:
-      me_MemorySegment::TMemorySegment Data;
   };
 }
 
 /*
   2024-06-02
   2024-06-04
+  2024-06-15
 */

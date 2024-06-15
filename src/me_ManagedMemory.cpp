@@ -1,8 +1,8 @@
-// Memory segment in dynamic memory management
+// Manager for memory segment in dynamic memory
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-04
+  Last mod.: 2024-06-15
 */
 
 #include "me_ManagedMemory.h"
@@ -15,48 +15,6 @@ using
   me_BaseTypes::TBool,
   me_BaseTypes::TChar,
   me_MemorySegment::TMemorySegment;
-
-TManagedMemory::~TManagedMemory()
-{
-  Release();
-}
-
-// Print our address to stdout
-void TManagedMemory::PrintTag()
-{
-  printf("[TManagedMemory 0x%04X]", (TUint_2) this);
-}
-
-// Print our data to stdout
-void TManagedMemory::PrintWrappings()
-{
-  printf("(");
-  Data.PrintWrappings();
-  printf(")");
-}
-
-// Print raw data to stdout
-void TManagedMemory::Print()
-{
-  Data.Print();
-}
-
-// Release memory. We are relying on idempotence of implementation.
-void TManagedMemory::Release()
-{
-  /*
-  printf("TManagedMemory::Release()\n");
-  Data.PrintWrappings();
-  printf("\n");
-  */
-
-  Data.Release();
-}
-
-me_MemorySegment::TMemorySegment TManagedMemory::Get()
-{
-  return Data;
-}
 
 /*
   Allocate and copy memory from another segment.
@@ -73,8 +31,8 @@ TBool TManagedMemory::Set(TMemorySegment SrcSeg)
   if (!Data.CopyMemFrom(SrcSeg))
   {
     /*
-      Theoretically CopyMemFrom() fails when our span intersects with
-      <Src>. Practically it's unlikely but anyway.
+      CopyMemFrom() will fail if our span intersects with <Src>.
+      Practically it's unlikely but anyway.
     */
     Data.Release();
     return false;
@@ -97,6 +55,27 @@ TBool TManagedMemory::Set(TManagedMemory * Src)
 }
 
 /*
+  Print our state to stdout
+*/
+void TManagedMemory::PrintWrappings()
+{
+  printf("[TManagedMemory 0x%04X]", (TUint_2) this);
+  printf(" ");
+  printf("(");
+  Data.PrintWrappings();
+  printf(")");
+}
+
+/*
+  Print raw data to stdout
+*/
+void TManagedMemory::Print()
+{
+  Data.Print();
+}
+
+/*
   2024-06-02
   2024-06-04
+  2024-06-15
 */
