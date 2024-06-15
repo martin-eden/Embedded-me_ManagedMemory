@@ -1,10 +1,8 @@
 # What
 
-(2024-06 .. )
+(2024-06)
 
-Arduino library for managing memory segment in dynamic memory.
-
-Experimental. WIP.
+Managing memory segment in dynamic memory. Arduino library.
 
 
 ## Requirements
