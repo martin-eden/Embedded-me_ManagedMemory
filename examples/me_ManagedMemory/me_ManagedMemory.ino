@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-02
+  Last mod.: 2024-07-06
 */
 
 #include <me_ManagedMemory.h>
@@ -31,27 +31,25 @@ void Test()
 
   TManagedMemory Chunk;
 
-  Chunk.PrintTag();
-  printf(" ");
   Chunk.PrintWrappings();
+  Chunk.Print();
   printf("\n");
 
-  Chunk.CloneFrom("Test ABC");
+  Chunk.Set("Test ABC");
 
-  Chunk.PrintTag();
-  printf(" ");
   Chunk.PrintWrappings();
+  Chunk.Print();
   printf("\n");
 
-  Chunk.CloneFrom("Test 2");
+  Chunk.Set("Test 2");
 
-  Chunk.PrintTag();
-  printf(" ");
   Chunk.PrintWrappings();
+  Chunk.Print();
   printf("\n");
 
 }
 
 /*
   2024-06-02
+  2024-07-06
 */
