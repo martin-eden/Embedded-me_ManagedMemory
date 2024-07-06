@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-15
+  Last mod.: 2024-07-06
 */
 
 #include "me_ManagedMemory.h"
@@ -15,6 +15,24 @@ using
   me_BaseTypes::TBool,
   me_BaseTypes::TChar,
   me_MemorySegment::TMemorySegment;
+
+/*
+  Destructor
+
+  Release data memory.
+*/
+TManagedMemory::~TManagedMemory()
+{
+  Release();
+}
+
+/*
+  Release data memory
+*/
+void TManagedMemory::Release()
+{
+  Data.Release();
+}
 
 /*
   Allocate and copy memory from another segment.
@@ -41,14 +59,29 @@ TBool TManagedMemory::Set(TMemorySegment SrcSeg)
   return true;
 }
 
-// Create copy from ASCIIZ
-TBool TManagedMemory::Set(const TChar * Asciiz)
+/*
+  Return data
+
+  If we want to make things real secure, we should return copy of data.
+  But as long as users do not call .Release() for that data, we may
+  return our real data. Less pointless copies.
+*/
+TMemorySegment TManagedMemory::Get()
 {
-  using me_MemorySegment::FromAsciiz;
-  return Set(FromAsciiz(Asciiz));
+  return Data;
 }
 
-// Create copy from our specie
+/*
+  Create copy from ASCIIZ
+*/
+TBool TManagedMemory::Set(const TChar * Asciiz)
+{
+  return Set(me_MemorySegment::FromAsciiz(Asciiz));
+}
+
+/*
+  Create copy from our specie
+*/
 TBool TManagedMemory::Set(TManagedMemory * Src)
 {
   return Set(Src->Get());

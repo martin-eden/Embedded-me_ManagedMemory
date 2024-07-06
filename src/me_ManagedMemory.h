@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-06-15
+  Last mod.: 2024-07-06
 */
 
 #pragma once
@@ -25,18 +25,20 @@ namespace me_ManagedMemory
     TMemorySegment Data;
 
     public:
-      ~TManagedMemory() { Release(); };
+      ~TManagedMemory();
 
-      void Release() { Data.Release(); };
-
-      TMemorySegment Get() { return Data; };
+      void Release();
 
       TBool Set(TMemorySegment SrcSeg);
       TBool Set(const TChar * Asciiz);
       TBool Set(TManagedMemory * Src);
 
-      void PrintWrappings();
+      TMemorySegment Get();
+
+      // Print raw data
       void Print();
+      // [debug] Print state
+      void PrintWrappings();
   };
 }
 
