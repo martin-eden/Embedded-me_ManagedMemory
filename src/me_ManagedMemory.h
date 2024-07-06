@@ -20,23 +20,16 @@ namespace me_ManagedMemory
   /*
     Dynamically allocated memory segment
   */
-  class TManagedMemory
+  class TManagedMemory : public TMemorySegment
   {
-    TMemorySegment Data;
-
     public:
       ~TManagedMemory();
 
-      void Release();
-
+      // Copy memory from another segment
       TBool Set(TMemorySegment SrcSeg);
+      // Copy memory from ASCIIZ
       TBool Set(const TChar * Asciiz);
-      TBool Set(TManagedMemory * Src);
 
-      TMemorySegment Get();
-
-      // Print raw data
-      void Print();
       // [debug] Print state
       void PrintWrappings();
   };
@@ -46,4 +39,5 @@ namespace me_ManagedMemory
   2024-06-02
   2024-06-04
   2024-06-15
+  2024-07-06
 */

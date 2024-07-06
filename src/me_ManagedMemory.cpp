@@ -19,7 +19,7 @@ using
 /*
   Destructor
 
-  Release data memory.
+  Release memory.
 */
 TManagedMemory::~TManagedMemory()
 {
@@ -27,48 +27,30 @@ TManagedMemory::~TManagedMemory()
 }
 
 /*
-  Release data memory
+  Copy memory from another segment
 */
-void TManagedMemory::Release()
+TBool TManagedMemory::Set(TMemorySegment Src)
 {
-  Data.Release();
-}
+  Release();
 
-/*
-  Allocate and copy memory from another segment.
-
-  Previously allocated memory (if any) is released.
-*/
-TBool TManagedMemory::Set(TMemorySegment SrcSeg)
-{
-  Data.Release();
-
-  if (!Data.Reserve(SrcSeg.Size))
+  if (!Reserve(Src.Size))
     return false;
 
-  if (!Data.CopyMemFrom(SrcSeg))
+  if (!CopyMemFrom(Src))
   {
     /*
       CopyMemFrom() will fail if our span intersects with <Src>.
-      Practically it's unlikely but anyway.
+
+      This case will happen if Reserve()'s allocated segment
+      intersects with <Src> segment.
+
+      Release() will zero part of <Src> segment in this case.
     */
-    Data.Release();
+    Release();
     return false;
   }
 
   return true;
-}
-
-/*
-  Return data
-
-  If we want to make things real secure, we should return copy of data.
-  But as long as users do not call .Release() for that data, we may
-  return our real data. Less pointless copies.
-*/
-TMemorySegment TManagedMemory::Get()
-{
-  return Data;
 }
 
 /*
@@ -80,14 +62,6 @@ TBool TManagedMemory::Set(const TChar * Asciiz)
 }
 
 /*
-  Create copy from our specie
-*/
-TBool TManagedMemory::Set(TManagedMemory * Src)
-{
-  return Set(Src->Get());
-}
-
-/*
   Print our state to stdout
 */
 void TManagedMemory::PrintWrappings()
@@ -95,20 +69,13 @@ void TManagedMemory::PrintWrappings()
   printf("[TManagedMemory 0x%04X]", (TUint_2) this);
   printf(" ");
   printf("(");
-  Data.PrintWrappings();
+  TMemorySegment::PrintWrappings();
   printf(")");
-}
-
-/*
-  Print raw data to stdout
-*/
-void TManagedMemory::Print()
-{
-  Data.Print();
 }
 
 /*
   2024-06-02
   2024-06-04
   2024-06-15
+  2024-07-06
 */
