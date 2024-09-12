@@ -13,8 +13,6 @@
 namespace me_ManagedMemory
 {
   using
-    me_BaseTypes::TBool,
-    me_BaseTypes::TChar,
     me_MemorySegment::TMemorySegment;
 
   /*

@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-07-06
+  Last mod.: 2024-09-12
 */
 
 #include "me_ManagedMemory.h"
@@ -11,9 +11,6 @@
 
 using
   me_ManagedMemory::TManagedMemory,
-  me_BaseTypes::TUint_2,
-  me_BaseTypes::TBool,
-  me_BaseTypes::TChar,
   me_MemorySegment::TMemorySegment;
 
 /*
