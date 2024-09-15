@@ -2,7 +2,12 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-07-06
+  Last mod.: 2024-09-15
+*/
+
+/*
+  It is memory segment with setters that frees previous memory and
+  destructor that frees memory.
 */
 
 #pragma once
