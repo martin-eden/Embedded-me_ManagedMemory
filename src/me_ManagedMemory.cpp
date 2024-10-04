@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-09-12
+  Last mod.: 2024-10-04
 */
 
 #include "me_ManagedMemory.h"
@@ -20,7 +20,11 @@ using
 */
 TManagedMemory::~TManagedMemory()
 {
+  // printf("( ~TManagedMemory\n");
+
   Release();
+
+  // printf(") ~TManagedMemory\n");
 }
 
 /*
@@ -63,11 +67,11 @@ TBool TManagedMemory::Set(const TChar * Asciiz)
 */
 void TManagedMemory::PrintWrappings()
 {
-  printf("[TManagedMemory 0x%04X]", (TUint_2) this);
-  printf(" ");
-  printf("(");
+  printf("[TManagedMemory 0x%04X] (\n", (TUint_2) this);
+
   TMemorySegment::PrintWrappings();
-  printf(")");
+
+  printf(")\n");
 }
 
 /*
