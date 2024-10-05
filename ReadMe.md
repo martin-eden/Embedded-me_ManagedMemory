@@ -23,11 +23,11 @@ leave syntax scope.
 
 ## Code
 
-* [Interface](src/me_ManagedMemory.h)
+* [Interface][Interface]
 * Implementation
   * [Class][TManagedMemory]
   * [Freetown][Freetown]
-* [Example](examples/me_ManagedMemory/me_ManagedMemory.ino)
+* [Example][Example]
 
 
 ## Requirements
