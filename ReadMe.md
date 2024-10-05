@@ -21,6 +21,15 @@ releasing their memory. Memory will be released when class instance
 leave syntax scope.
 
 
+## Code
+
+* [Interface](src/me_ManagedMemory.h)
+* Implementation
+  * [Class][TManagedMemory]
+  * [Freetown][Freetown]
+* [Example](examples/me_ManagedMemory/me_ManagedMemory.ino)
+
+
 ## Requirements
 
   * arduino-cli
@@ -32,7 +41,7 @@ leave syntax scope.
 Run [Install.sh](Install.sh).
 
 
-# Compile
+## Compile
 
 Zero-warnings compilation:
 
@@ -45,15 +54,6 @@ arduino-cli compile --fqbn arduino:avr:uno --quiet --warnings all . --build-prop
 Run [Remove.sh](Remove.sh).
 
 
-## Code
-
-* [Interface](src/me_ManagedMemory.h)
-* [Implementation]
-  * [Class][TManagedMemory]
-  * [Freetown][Freetown]
-* [Example](examples/me_ManagedMemory/me_ManagedMemory.ino)
-
-
 ## See also
 
 * [My other embedded C++ libraries][Embedded]
@@ -61,7 +61,7 @@ Run [Remove.sh](Remove.sh).
 
 
 [Interface]: src/me_ManagedMemory.h
-[TManagedMemory]: src/me_ManagedMemory.cpp
+[TManagedMemory]: src/TManagedMemory.cpp
 [Freetown]: src/me_ManagedMemory_Freetown.cpp
 [Example]: examples/me_ManagedMemory/me_ManagedMemory.ino
 
