@@ -120,21 +120,10 @@ TBool TManagedMemory::LoadFrom(
 }
 
 /*
-  [Debug] Print state and data to stdout
-*/
-void TManagedMemory::PrintWrappings()
-{
-  printf("[TManagedMemory 0x%04X] (\n", (TUint_2) this);
-
-  me_MemorySegment::Freetown::PrintWrappings(&DataSeg);
-
-  printf(")\n");
-}
-
-/*
   2024-06-02
   2024-06-04
   2024-06-15
   2024-07-06
   2024-10-05
+  2024-10-07
 */

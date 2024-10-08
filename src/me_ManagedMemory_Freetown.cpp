@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-05
+  Last mod.: 2024-10-08
 */
 
 /*
@@ -16,7 +16,9 @@
 
 #include <Arduino.h> // "min" macro for "CopyMemTo"
 
-// #include <stdio.h> // [Debug] printf() for Reserve() and Release()
+#include <me_Console.h> // PrintWrappings() is using global "Console"
+
+using namespace me_ManagedMemory;
 
 using
   me_MemorySegment::TMemorySegment;
@@ -125,4 +127,6 @@ TBool me_ManagedMemory::Freetown::CopyMemTo(
   2024-05
   2024-06
   2024-10-05
+  2024-10-07
+  2024-10-08
 */

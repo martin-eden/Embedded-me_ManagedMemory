@@ -8,10 +8,7 @@
 /*
   Central part of this module is allocated memory segment.
 
-  It manages memory, and guarantee it will release it upon death.
-
-  It can't be safe and useful at the same time. So it sacrifices safety
-  and provides data addresses.
+  It manages memory, and guarantees it will release it upon death.
 */
 
 #pragma once
@@ -46,9 +43,6 @@ namespace me_ManagedMemory
       TBool LoadFrom(const TChar * Asciiz);
       // Load from our specie
       TBool LoadFrom(TManagedMemory * Src);
-
-      // [Debug] Print state and data to stdout
-      void PrintWrappings();
 
     private:
       me_MemorySegment::TMemorySegment DataSeg;
