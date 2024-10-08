@@ -21,6 +21,51 @@ releasing their memory. Memory will be released when class instance
 leave syntax scope.
 
 
+## Sample output
+
+```
+[me_ManagedMemory] Okay, we are here.
+This library manages heap span.
+
+Class manages loading data, resizing and debug print.
+Free functions handle heap memory allocations, zeroing
+and copying.
+
+In this example we'll use one instance with different
+values. Idea is to demonstrate that memory span for data
+is reused.
+
+TMemorySegment
+(
+  Start 00000
+  Size 00000
+  Data (  )
+)
+
+TMemorySegment
+(
+  Start 00879
+  Size 00003
+  Data ( 065 066 067 )
+)
+
+TMemorySegment
+(
+  Start 00884
+  Size 00005
+  Data ( 049 050 051 052 053 )
+)
+
+TMemorySegment
+(
+  Start 00879
+  Size 00002
+  Data ( 097 098 )
+)
+
+[me_ManagedMemory] Done.
+```
+
 ## Code
 
 * [Interface][Interface]
