@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-09
+  Last mod.: 2024-10-10
 */
 
 #include <me_ManagedMemory.h>
@@ -10,13 +10,17 @@
 #include <me_BaseTypes.h>
 #include <me_UartSpeeds.h>
 #include <me_Console.h>
+#include <me_InstallStandardStreams.h>
 
 void setup()
 {
+  InstallStandardStreams();
   Console.Init(me_UartSpeeds::Arduino_Normal_Bps);
 
   Console.Print("[me_ManagedMemory] Okay, we are here.");
+  Console.Indent();
   RunTest();
+  Console.Unindent();
   Console.Print("[me_ManagedMemory] Done.");
   Console.Flush();
 }
@@ -29,23 +33,17 @@ void loop()
 
 void RunTest()
 {
-  // Two Console.Newline()'s does not produce empty line. Workaround. Sorry.
-  printf("\n");
+  Console.Print("");
 
-  // Progmem strings are not yet supported by [me_Console], so printf()
-  printf(
-    PSTR(
-      "This library manages heap span.\n"
-      "\n"
-      "Class manages loading data, resizing and debug print.\n"
-      "Free functions handle heap memory allocations, zeroing\n"
-      "and copying.\n"
-      "\n"
-      "In this example we'll use one instance with different\n"
-      "values. Idea is to demonstrate that memory span for data\n"
-      "is reused.\n"
-    )
-  );
+  Console.Print("This library manages heap span.");
+  Console.Print("");
+  Console.Print("Class manages loading data and resizing. Free functions");
+  Console.Print("handle heap memory allocations, zeroing and copying.");
+  Console.Print("");
+  Console.Print("In this example we'll use one instance with different");
+  Console.Print("values. Idea is to demonstrate that memory span for data");
+  Console.Print("is reused.");
+  Console.Print("");
 
   using
     me_ManagedMemory::TManagedMemory,
@@ -54,19 +52,19 @@ void RunTest()
   TManagedMemory Chunk;
 
   PrintWrappings(Chunk.GetData());
-  printf("\n");
+  Console.Print("");
 
   Chunk.LoadFrom("ABC");
   PrintWrappings(Chunk.GetData());
-  printf("\n");
+  Console.Print("");
 
   Chunk.LoadFrom("12345");
   PrintWrappings(Chunk.GetData());
-  printf("\n");
+  Console.Print("");
 
   Chunk.LoadFrom("ab");
   PrintWrappings(Chunk.GetData());
-  printf("\n");
+  Console.Print("");
 }
 
 /*
