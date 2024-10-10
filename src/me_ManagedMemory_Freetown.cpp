@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-08
+  Last mod.: 2024-10-10
 */
 
 /*
@@ -16,7 +16,15 @@
 
 #include <Arduino.h> // "min" macro for "CopyMemTo"
 
-#include <me_Console.h> // PrintWrappings() is using global "Console"
+/*
+  #include <stdio.h>
+
+  printf() for possible debug output.
+
+  We can't use [me_Console] because it uses [me_String] which
+  uses us.
+*/
+//#include <stdio.h>
 
 using namespace me_ManagedMemory;
 
@@ -48,9 +56,7 @@ TBool me_ManagedMemory::Freetown::Reserve(
   ZeroMem(*MemSeg);
 
   /*
-  printf("( Reserve\n");
-  me_MemorySegment::PrintWrappings(MemSeg);
-  printf(") Reserve\n");
+  printf("Reserve ( Addr %05u Size %05u )\n", MemSeg->Start.Addr, MemSeg->Size);
   //*/
 
   return true;
@@ -65,17 +71,15 @@ void me_ManagedMemory::Freetown::Release(
   TMemorySegment * MemSeg
 )
 {
-  /*
-  printf("( Release\n");
-  me_MemorySegment::PrintWrappings(MemSeg);
-  printf(") Release\n");
-  //*/
-
-  ZeroMem(*MemSeg);
-
   // Zero size? Job done!
   if (MemSeg->Size == 0)
     return;
+
+  /*
+  printf("Release ( Addr %05u Size %05u )\n", MemSeg->Start.Addr, MemSeg->Size);
+  //*/
+
+  ZeroMem(*MemSeg);
 
   free((void *) MemSeg->Start.Addr);
 

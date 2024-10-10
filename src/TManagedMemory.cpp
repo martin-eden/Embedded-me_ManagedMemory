@@ -2,12 +2,10 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-05
+  Last mod.: 2024-10-10
 */
 
 #include "me_ManagedMemory.h"
-
-#include <stdio.h> // printf() for PrintWrappings()
 
 using
   me_ManagedMemory::TManagedMemory,
@@ -49,8 +47,7 @@ TUint_2 TManagedMemory::GetSize()
   In case of shrink, data is truncated. In case of grow,
   it's filled with zero bytes.
 
-  If there's no memory of some other issues, we'll return
-  false and try to preserve what we can.
+  If there's no memory, we'll return false.
 */
 TBool TManagedMemory::ResizeTo(
   TUint_2 NewSize
