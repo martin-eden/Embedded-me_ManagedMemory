@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-10
+  Last mod.: 2024-10-11
 */
 
 /*
@@ -24,7 +24,7 @@
   We can't use [me_Console] because it uses [me_String] which
   uses us.
 */
-//#include <stdio.h>
+// #include <stdio.h>
 
 using namespace me_ManagedMemory;
 
@@ -73,7 +73,10 @@ void me_ManagedMemory::Freetown::Release(
 {
   // Zero size? Job done!
   if (MemSeg->Size == 0)
+  {
+    MemSeg->Start.Addr = 0;
     return;
+  }
 
   /*
   printf("Release ( Addr %05u Size %05u )\n", MemSeg->Start.Addr, MemSeg->Size);
