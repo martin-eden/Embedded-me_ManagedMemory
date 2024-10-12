@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-11
+  Last mod.: 2024-10-12
 */
 
 /*
@@ -14,17 +14,18 @@
 
 #include "me_ManagedMemory.h"
 
-#include <Arduino.h> // "min" macro for "CopyMemTo"
+#include <Arduino.h> // "min" macro for "CopyMemTo", PSTR for [Debug]
+// #include <me_Heap.h> // Custom memory manager
 
 /*
   #include <stdio.h>
 
-  printf() for possible debug output.
+  for printf_P() for possible debug output.
 
   We can't use [me_Console] because it uses [me_String] which
   uses us.
 */
-// #include <stdio.h>
+// #include <stdio.h> // [Debug]
 
 using namespace me_ManagedMemory;
 
@@ -32,15 +33,33 @@ using
   me_MemorySegment::TMemorySegment;
 
 /*
-  Reserve block of memory. Zero after allocation
+  Reserve block of memory. Zero data after allocation
 
-  Implemented as wrapper over malloc().
+  Opportunistically calls custom memory manager.
+  Uses stock malloc() as fallback option.
 */
 TBool me_ManagedMemory::Freetown::Reserve(
   TMemorySegment * MemSeg,
   TUint_2 Size
 )
 {
+  /*
+  // Can use custom memory manager?
+  if (Heap.IsReady())
+  {
+    // Let custom manager handle this case
+    TBool IsReserved = Heap.Reserve(MemSeg, Size);
+
+    if (IsReserved)
+      return true;
+  }
+  //*/
+
+  /*
+    If custom memory manager is not ready or wasn't able
+    to handle this request, we're handling it ourselves.
+  */
+
   // Zero size? Job done!
   if (Size == 0)
     return true;
@@ -48,15 +67,19 @@ TBool me_ManagedMemory::Freetown::Reserve(
   TUint_2 MallocAddr = (TUint_2) malloc(Size);
 
   if (MallocAddr == 0)
+  {
+    // printf_P(PSTR("[Stock] Failed to reserve %u bytes.\n"), Size);
     return false;
+  }
 
   MemSeg->Start.Addr = MallocAddr;
   MemSeg->Size = Size;
 
+  // Zero memory (contract)
   ZeroMem(*MemSeg);
 
   /*
-  printf("Reserve ( Addr %05u Size %05u )\n", MemSeg->Start.Addr, MemSeg->Size);
+  printf_P(PSTR("[Stock] Reserve ( Addr %05u Size %05u )\n"), MemSeg->Start.Addr, MemSeg->Size);
   //*/
 
   return true;
@@ -65,12 +88,30 @@ TBool me_ManagedMemory::Freetown::Reserve(
 /*
   Release block of memory. Zero before release
 
-  Implemented as wrapper over free().
+  Opportunistically calls memory manager if it is alive.
+  Uses free() as fallback option.
 */
 void me_ManagedMemory::Freetown::Release(
   TMemorySegment * MemSeg
 )
 {
+  /*
+  // Can use custom memory manager?
+  if (Heap.IsReady())
+  {
+    // Let custom manager handle this case
+    TBool IsReleased = Heap.Release(MemSeg);
+
+    if (IsReleased)
+      return;
+  }
+  //*/
+
+  /*
+    We're here if custom memory manager is not ready
+    or wasn't able to handle this request.
+  */
+
   // Zero size? Job done!
   if (MemSeg->Size == 0)
   {
@@ -79,9 +120,10 @@ void me_ManagedMemory::Freetown::Release(
   }
 
   /*
-  printf("Release ( Addr %05u Size %05u )\n", MemSeg->Start.Addr, MemSeg->Size);
+  printf_P(PSTR("[Stock] Release ( Addr %05u Size %05u )\n"), MemSeg->Start.Addr, MemSeg->Size);
   //*/
 
+  // Zero memory (optional)
   ZeroMem(*MemSeg);
 
   free((void *) MemSeg->Start.Addr);
@@ -136,4 +178,5 @@ TBool me_ManagedMemory::Freetown::CopyMemTo(
   2024-10-05
   2024-10-07
   2024-10-08
+  2024-10-12 [~] Heap
 */
