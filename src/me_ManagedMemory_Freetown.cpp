@@ -68,7 +68,7 @@ TBool me_ManagedMemory::Freetown::Reserve(
 
   if (MallocAddr == 0)
   {
-    // printf_P(PSTR("[Stock] Failed to reserve %u bytes.\n"), Size);
+    // printf_P(PSTR("Failed to reserve %u bytes.\n"), Size);
     return false;
   }
 
@@ -79,7 +79,7 @@ TBool me_ManagedMemory::Freetown::Reserve(
   ZeroMem(*MemSeg);
 
   /*
-  printf_P(PSTR("[Stock] Reserve ( Addr %05u Size %05u )\n"), MemSeg->Start.Addr, MemSeg->Size);
+  printf_P(PSTR("Reserve ( Addr %05u Size %05u )\n"), MemSeg->Start.Addr, MemSeg->Size);
   //*/
 
   return true;
@@ -120,7 +120,7 @@ void me_ManagedMemory::Freetown::Release(
   }
 
   /*
-  printf_P(PSTR("[Stock] Release ( Addr %05u Size %05u )\n"), MemSeg->Start.Addr, MemSeg->Size);
+  printf_P(PSTR("Release ( Addr %05u Size %05u )\n"), MemSeg->Start.Addr, MemSeg->Size);
   //*/
 
   // Zero memory (optional)
