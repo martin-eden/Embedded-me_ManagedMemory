@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-12
+  Last mod.: 2024-10-13
 */
 
 /*
@@ -15,12 +15,12 @@
 #include "me_ManagedMemory.h"
 
 #include <Arduino.h> // "min" macro for "CopyMemTo", PSTR for [Debug]
-// #include <me_Heap.h> // Custom memory manager
+#include <me_Heap.h> // [External manger]
 
 /*
   #include <stdio.h>
 
-  for printf_P() for possible debug output.
+  For printf_P() for debug output.
 
   We can't use [me_Console] because it uses [me_String] which
   uses us.
@@ -43,8 +43,7 @@ TBool me_ManagedMemory::Freetown::Reserve(
   TUint_2 Size
 )
 {
-  /*
-  // Can use custom memory manager?
+  //* [External manager]
   if (Heap.IsReady())
   {
     // Let custom manager handle this case
@@ -68,7 +67,9 @@ TBool me_ManagedMemory::Freetown::Reserve(
 
   if (MallocAddr == 0)
   {
-    // printf_P(PSTR("Failed to reserve %u bytes.\n"), Size);
+    /* [Debug]
+    printf_P(PSTR("Failed to reserve %u bytes.\n"), Size);
+    //*/
     return false;
   }
 
@@ -78,7 +79,7 @@ TBool me_ManagedMemory::Freetown::Reserve(
   // Zero memory (contract)
   ZeroMem(*MemSeg);
 
-  /*
+  /* [Debug]
   printf_P(PSTR("Reserve ( Addr %05u Size %05u )\n"), MemSeg->Start.Addr, MemSeg->Size);
   //*/
 
@@ -95,8 +96,7 @@ void me_ManagedMemory::Freetown::Release(
   TMemorySegment * MemSeg
 )
 {
-  /*
-  // Can use custom memory manager?
+  //* [External manager]
   if (Heap.IsReady())
   {
     // Let custom manager handle this case
@@ -119,7 +119,7 @@ void me_ManagedMemory::Freetown::Release(
     return;
   }
 
-  /*
+  /* [Debug]
   printf_P(PSTR("Release ( Addr %05u Size %05u )\n"), MemSeg->Start.Addr, MemSeg->Size);
   //*/
 
